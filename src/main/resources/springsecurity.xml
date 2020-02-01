@@ -16,11 +16,17 @@
         <!-- isAnonymous():只有匿名用户才可以访问（如果登录用户就无法访问）
                permitAll():允许所有人（匿名和登录用户）方法-->
         <security:intercept-url pattern="/product/index" access="permitAll()"/>
+        <security:intercept-url pattern="/userLogin" access="permitAll()"/>
         <!-- isFullyAuthenticated(): 该资源需要认证才可以访问 -->
         <security:intercept-url pattern="/**" access="isFullyAuthenticated()"/>
         <!-- security:http-basic: 使用 HttpBasic 方式进行登录（认证） -->
         <!--<security:http-basic/>-->
-        <security:form-login/>
+
+        <!-- login-page: 自定义登录页面 login-processing-url:登录请求地址 -->
+        <security:form-login login-page="/userLogin" login-processing-url="/securityLogin"/>
+
+        <!-- 关闭 Spring Security CSRF 机制 -->
+        <security:csrf disabled="true"/>
     </security:http>
 
     <!--security:authentication-manager： 认证管理器
@@ -28,7 +34,7 @@
     <security:authentication-manager>
         <security:authentication-provider>
             <security:user-service>
-                <security:user name="leo" password="{noop}123456" authorities="ROLE_USER"/>
+                <security:user name="leo" password="123456" authorities="ROLE_USER"/>
             </security:user-service>
         </security:authentication-provider>
     </security:authentication-manager>
