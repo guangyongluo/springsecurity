@@ -17,13 +17,22 @@
                permitAll():允许所有人（匿名和登录用户）方法-->
         <security:intercept-url pattern="/product/index" access="permitAll()"/>
         <security:intercept-url pattern="/userLogin" access="permitAll()"/>
+        <security:intercept-url pattern="/product/add" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/product/update" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/product/delete" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/product/list" access="hasRole('ROLE_USER')"/>
         <!-- isFullyAuthenticated(): 该资源需要认证才可以访问 -->
         <security:intercept-url pattern="/**" access="isFullyAuthenticated()"/>
         <!-- security:http-basic: 使用 HttpBasic 方式进行登录（认证） -->
         <!--<security:http-basic/>-->
 
         <!-- login-page: 自定义登录页面 login-processing-url:登录请求地址 -->
-        <security:form-login login-page="/userLogin" login-processing-url="/securityLogin"/>
+        <security:form-login login-page="/userLogin" login-processing-url="/securityLogin"
+                             authentication-success-handler-ref="myAuthenticationSuccessHandler"
+        authentication-failure-handler-ref="myAuthenticationFailHandler"/>
+
+        <!-- 自定义权限不足处理 -->
+        <security:access-denied-handler error-page="/error"/>
 
         <!-- 关闭 Spring Security CSRF 机制 -->
         <security:csrf disabled="true"/>
@@ -32,10 +41,17 @@
     <!--security:authentication-manager： 认证管理器
     1）认证信息提供方式（账户名，密码，当前用户权限） -->
     <security:authentication-manager>
-        <security:authentication-provider>
+        <security:authentication-provider user-service-ref="myUserDetailService">
+            <!--
             <security:user-service>
+                <security:user name="luo" password="654321" authorities="ROLE_ADMIN"/>
                 <security:user name="leo" password="123456" authorities="ROLE_USER"/>
             </security:user-service>
+            -->
         </security:authentication-provider>
     </security:authentication-manager>
+
+    <bean id="myUserDetailService" class="com.vilin.springsecurity.security.MyUserDetailService"/>
+    <bean id="myAuthenticationSuccessHandler" class="com.vilin.springsecurity.security.MyAuthenticationSuccessHandler"/>
+    <bean id="myAuthenticationFailHandler" class="com.vilin.springsecurity.security.MyAuthenticationFailureHandler"/>
 </beans>
