@@ -6,6 +6,7 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security.xsd">
+
     <!-- <security:http>: spring 过滤器链配置：
     1）需要拦截什么资源
     2）什么资源什么角色权限
@@ -54,4 +55,6 @@
     <bean id="myUserDetailService" class="com.vilin.springsecurity.security.MyUserDetailService"/>
     <bean id="myAuthenticationSuccessHandler" class="com.vilin.springsecurity.security.MyAuthenticationSuccessHandler"/>
     <bean id="myAuthenticationFailHandler" class="com.vilin.springsecurity.security.MyAuthenticationFailureHandler"/>
+
+
 </beans>

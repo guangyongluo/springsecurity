@@ -12,7 +12,7 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>
       classpath:application.xml
-      classpath:springsecurity.xml
+      classpath:spring_security.xml
     </param-value>
   </context-param>
 
