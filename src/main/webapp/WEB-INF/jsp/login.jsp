@@ -22,6 +22,7 @@
 <form id="loginForm" action="${pageContext.request.contextPath}/securityLogin" method="post">
     用户名：<input type="text" name="username"/><br/>
     密码：<input type="password" name="password"/><br/>
+    验证码:<input type="text" name="imageCode"/><img src="${pageContext.request.contextPath}/imageCode"/><br/>
     <input id="loginBtn" type="submit" value="登入"/>
 </form>
 
@@ -32,7 +33,7 @@
                 if(data.userLogin){
                     window.location.href="${pageContext.request.contextPath}/product/index";
                 }else{
-                    alert("登入失败：用户名或者密码错误");
+                    alert("登入失败：" + data.errorMsg);
                     window.location.href="${pageContext.request.contextPath}/userLogin";
                 }
                 // alert(data);

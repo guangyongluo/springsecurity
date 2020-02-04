@@ -24,18 +24,18 @@ public class MyUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userMapper.findByUsername(username);
-        if(user == null){
-            throw new UsernameNotFoundException(username + "is not found.");
-        }
-        List<Permission> permissionList = userMapper.findPermissionByUsername(username);
-        List<GrantedAuthority> grantedAuthorityList = new ArrayList<GrantedAuthority>();
-        for(Permission permission : permissionList){
-            GrantedAuthority authority = new SimpleGrantedAuthority(permission.getPermTag());
-            grantedAuthorityList.add(authority);
-        }
-        user.setAuthorities(grantedAuthorityList);
+        if(user != null){
+            List<Permission> permissionList = userMapper.findPermissionByUsername(username);
+            List<GrantedAuthority> grantedAuthorityList = new ArrayList<GrantedAuthority>();
+            for(Permission permission : permissionList){
+                GrantedAuthority authority = new SimpleGrantedAuthority(permission.getPermTag());
+                grantedAuthorityList.add(authority);
+            }
+            user.setAuthorities(grantedAuthorityList);
 
-        log.info(user);
+            log.info(user);
+        }
+
         return user;
     }
 }

@@ -22,6 +22,7 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         Map result = new HashMap();
         result.put("userLogin",false);
+        result.put("errorMsg",e.getMessage());
 
         String json = objectMapper.writeValueAsString(result);
         log.info(json);

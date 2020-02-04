@@ -13,6 +13,7 @@
         <security:intercept-url pattern="/product/update" access="hasAuthority('ROLE_UPDATE_PRODUCT')"/>
         <security:intercept-url pattern="/product/delete" access="hasAuthority('ROLE_DELETE_PRODUCT')"/>
 
+        <security:intercept-url pattern="/imageCode*" access="permitAll()"/>
         <security:intercept-url pattern="/js/**" access="permitAll()"/>
         <security:intercept-url pattern="/userLogin" access="permitAll()"/>
         <security:intercept-url pattern="/product/index" access="permitAll()"/>
@@ -20,6 +21,8 @@
 
         <security:form-login login-page="/userLogin" login-processing-url="/securityLogin"  authentication-success-handler-ref="myAuthenticationSuccessHandler" authentication-failure-handler-ref="myAuthenticationFailureHandler"/>
 
+        <!-- 自定义 Spring Security 过滤器 -->
+        <security:custom-filter ref="imageCodeAuthenticationFilter" before="FORM_LOGIN_FILTER"/>
 
         <security:access-denied-handler error-page="/error"/>
 
@@ -37,4 +40,7 @@
     <bean id="myAuthenticationSuccessHandler" class="com.vilin.springsecurity.security.MyAuthenticationSuccessHandler"/>
     <bean id="myAuthenticationFailureHandler" class="com.vilin.springsecurity.security.MyAuthenticationFailureHandler"/>
     <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <bean id="imageCodeAuthenticationFilter" class="com.vilin.springsecurity.security.ImageCodeAuthenticationFilter">
+        <property name="authenticationFailureHandler" ref="myAuthenticationFailureHandler"/>
+    </bean>
 </beans>
