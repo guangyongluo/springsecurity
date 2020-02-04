@@ -1,6 +1,7 @@
 package com.vilin.springsecurity.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.log4j.Logger;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
@@ -13,14 +14,17 @@ import java.util.Map;
 
 public class MyAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
+    private static final Logger log = Logger.getLogger(MyAuthenticationFailureHandler.class);
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         Map result = new HashMap();
-        result.put("fail",true);
+        result.put("userLogin",false);
 
         String json = objectMapper.writeValueAsString(result);
+        log.info(json);
         httpServletResponse.setContentType("text/json;charset=utf-8");
         httpServletResponse.getWriter().write(json);
     }

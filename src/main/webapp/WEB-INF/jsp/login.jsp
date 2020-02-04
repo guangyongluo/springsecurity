@@ -1,4 +1,5 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: XPRO
@@ -6,18 +7,38 @@
   Time: 16:44
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>登入页面</title>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 </head>
 <body>
 <h3>登入页面</h3>
-<form action="${pageContext.request.contextPath}/securityLogin" method="post">
+
+<%--<c:if test="${not empty param.error}">--%>
+<%--    <font color="red">用户名或密码错误</font>--%>
+<%--</c:if>--%>
+
+<form id="loginForm" action="${pageContext.request.contextPath}/securityLogin" method="post">
     用户名：<input type="text" name="username"/><br/>
     密码：<input type="password" name="password"/><br/>
-    <input type="submit" value="登入"/>
+    <input id="loginBtn" type="submit" value="登入"/>
 </form>
 
+<script type="text/javascript">
+    $(function () {
+        $("#loginBtn").click(function () {
+            $.post("${pageContext.request.contextPath}/securityLogin", $("#loginForm").serialize(), function (data){
+                if(data.userLogin){
+                    window.location.href="${pageContext.request.contextPath}/product/index";
+                }else{
+                    alert("登入失败：用户名或者密码错误");
+                    window.location.href="${pageContext.request.contextPath}/userLogin";
+                }
+                // alert(data);
+            }, "json");
+        });
+    });
+</script>
 </body>
 </html>

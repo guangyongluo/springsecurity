@@ -13,6 +13,9 @@
     <!-- springmvc自动扫描Controller-->
     <context:component-scan base-package="com.vilin.springsecurity.controller"/>
 
+    <!-- 处理静态资源 -->
+    <mvc:default-servlet-handler/>
+
     <!-- 注解方式处理映射器和适配器  -->
     <mvc:annotation-driven/>
 

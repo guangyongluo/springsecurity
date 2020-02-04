@@ -10,4 +10,6 @@ public interface UserMapper {
     public User findByUsername(String username);
 
     public List<Permission> findPermissionByUsername(String username);
+
+    public void updatePassword(String username, String originalPassword);
 }

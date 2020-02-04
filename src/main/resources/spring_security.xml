@@ -13,11 +13,13 @@
         <security:intercept-url pattern="/product/update" access="hasAuthority('ROLE_UPDATE_PRODUCT')"/>
         <security:intercept-url pattern="/product/delete" access="hasAuthority('ROLE_DELETE_PRODUCT')"/>
 
+        <security:intercept-url pattern="/js/**" access="permitAll()"/>
         <security:intercept-url pattern="/userLogin" access="permitAll()"/>
         <security:intercept-url pattern="/product/index" access="permitAll()"/>
         <security:intercept-url pattern="/**" access="isFullyAuthenticated()"/>
 
-        <security:form-login login-page="/userLogin" login-processing-url="/securityLogin"/>
+        <security:form-login login-page="/userLogin" login-processing-url="/securityLogin"  authentication-success-handler-ref="myAuthenticationSuccessHandler" authentication-failure-handler-ref="myAuthenticationFailureHandler"/>
+
 
         <security:access-denied-handler error-page="/error"/>
 
@@ -26,10 +28,13 @@
 
 
     <security:authentication-manager>
-        <security:authentication-provider>
-            <security:user-service>
-                <security:user name="eric" password="123456" authorities="ROLE_USER"/>
-            </security:user-service>
+        <security:authentication-provider user-service-ref="MyUserDetailService">
+            <security:password-encoder ref="passwordEncoder"/>
         </security:authentication-provider>
     </security:authentication-manager>
+
+    <bean id="MyUserDetailService" class="com.vilin.springsecurity.security.MyUserDetailService"/>
+    <bean id="myAuthenticationSuccessHandler" class="com.vilin.springsecurity.security.MyAuthenticationSuccessHandler"/>
+    <bean id="myAuthenticationFailureHandler" class="com.vilin.springsecurity.security.MyAuthenticationFailureHandler"/>
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 </beans>
