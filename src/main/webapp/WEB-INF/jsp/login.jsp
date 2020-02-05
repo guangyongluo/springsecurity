@@ -23,7 +23,8 @@
     用户名：<input type="text" name="username"/><br/>
     密码：<input type="password" name="password"/><br/>
     验证码:<input type="text" name="imageCode"/><img src="${pageContext.request.contextPath}/imageCode"/><br/>
-    <input id="loginBtn" type="submit" value="登入"/>
+    记住我:<input type="checkbox" name="remember-me" value="true"><br/>
+    <input id="loginBtn" type="button" value="登入"/>
 </form>
 
 <script type="text/javascript">
